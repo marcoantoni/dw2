@@ -19,7 +19,7 @@ A disciplina de **Desenvolvimento Web II** aborda conceitos e práticas essencia
 
 Para mais informações, materiais de estudo e atividades, acesse o Ambiente Virtual de Aprendizagem (AVA) da disciplina através do link abaixo:
 
-[🔗 Acesso ao Moodle](https://presencial.ifrs.edu.br/course/view.php?id=807)
+[🔗 Acesso ao Moodle](https://presencial.ifrs.edu.br/course/view.php?id=772)
 
 ## 📂 Conteúdo do Repositório
 
