@@ -1,3 +1,16 @@
+<?php
+    /*
+        Função que recebe um código númerico que corresponde ao tipo do vinculo do usuário (conforme definido na aula de 15/04) e retorna uma string
+    */
+    function tipoParaTexto($tipo){
+        switch($tipo){
+            case 1: return "Administrador";
+            case 2: return "Pessoa física";
+            case 3: return "Pessoa jurídica";
+            default: return "Desconhecido";
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -62,43 +75,87 @@
     <div class="container">
 
         <!-- Mensagem de sucesso -->
-        <div class="alert">
-            Registro inserido com sucesso!
-        </div>
+        <?php
+            session_start();    // inicia a sessão
+            // testa se existe a variavel de sessão para mostrar a mensagem de sucesso
+            if (isset($_SESSION["msg_sucesso"])) :
+        ?>
+            <div class="alert">
+                Registro inserido com sucesso!
+            </div>
+        <?php 
+            unset($_SESSION["msg_sucesso"]);    // exclui a variavel de sessão
+            endif; // fechamento do if na sintaxe alternativa
+        ?>
 
         <h2>Usuários Cadastrados</h2>
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Nascimento</th>
-                        <th>E-mail</th>
-                        <th>Tipo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>João da Silva</td>
-                        <td>1990-05-12</td>
-                        <td>joao@email.com</td>
-                        <td>Administrador</td>
-                    </tr>
-                    <tr>
-                        <td>Maria Souza</td>
-                        <td>1985-11-23</td>
-                        <td>maria@email.com</td>
-                        <td>Pessoa física</td>
-                    </tr>
-                    <tr>
-                        <td>Empresa XYZ</td>
-                        <td>—</td>
-                        <td>contato@xyz.com</td>
-                        <td>Pessoa jurídica</td>
-                    </tr>
-                </tbody>
-            </table>
+
+        <?php
+            // estabelece a conexão com o banco de dados
+            $conn = mysqli_connect("127.0.0.1", "root", "", "dw2");
+
+            // testa se a conexão ocorreu com sucesso
+            if (!$conn){
+                die("Houve um erro ao conectar com o banco de dados");
+            }
+
+            $sql = "SELECT nome, DATE_FORMAT(nascimento, '%d/%m/%Y') AS nascimento, email, tipo FROM usuarios ORDER BY nome ASC";
+
+            // ao exececutar uma consulta do tipo select, a função mysqli_query retorna um resultset 
+            $resultado = mysqli_query($conn, $sql);
+
+            // mysqli_num_rows conta quantas linhas o resultset tem
+            // se há mais de 0 linhas, é porque tem algo para ser exibido
+            if (mysqli_num_rows($resultado) > 0) {
+                
+                // gera a parte inicial da tabela, que exibirá os dados
+                echo ('<div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Nascimento</th>
+                                <th>E-mail</th>
+                                <th>Tipo</th>
+                            </tr>
+                        </thead>
+                        <tbody>');
+
+            // exibibindo os registro que estão vindos do banco de dados
+            // Recupera a próxima linha do resultado da consulta SQL como um array associativo. A função mysqli_fetch_assoc é usada para obter uma linha do resultado de uma consulta SQL 
+            
+            while ($row = mysqli_fetch_assoc($resultado) ){
+                echo ("<tr>");  // abre uma nova linha da tabela
+                // adiciona os dados (td) da tabela
+                // A função htmlspecialchars() em PHP é usada para converter caracteres especiais em entidades HTML
+                echo ("<td>" . htmlspecialchars($row["nome"]) . "</td>");
+                echo ("<td>" . htmlspecialchars($row["nascimento"]) . "</td>");
+                echo ("<td>" . htmlspecialchars($row["email"]) . "</td>");
+                // chama a função tipoParaTexto
+                echo ("<td>" . tipoParaTexto($row["tipo"]) . "</td>");
+                echo ("</tr>"); // fecha uma nova linha da tabela
+            }
+            
+            // ao terminar o while, é necessário fechar as tags da tabela, que foram abertas antes do laço de repetição
+            echo ("</tbody></table>"); 
+            } else {
+                // se a consulta retornou 0 linhas
+                echo ("<h1>Não há nada para ser exibido</h1>");
+            }
+        ?>
         </div>
     </div>
+    <script>
+        // javascript para ocultar a div que contém as mensagens de erro
+        setTimeout(function() {
+
+            const alertas = document.querySelectorAll('.alert');
+
+            alertas.forEach(alerta => {
+                alerta.style.opacity = '0';
+                setTimeout(() => alerta.style.display = 'none', 500);
+            })
+        }, 5000);
+    </script>
 </body>
 </html>
