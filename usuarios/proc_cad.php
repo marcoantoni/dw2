@@ -72,15 +72,27 @@
 		// testa se a conexão ocorreu com sucesso
 		if ($conn){
 
-			// gerar a string de consulta sql
-			$sql = "INSERT INTO usuarios (nome, nascimento, email, tipo, senha) VALUES ('$nome', '$nascimento', '$email', $tipo, '$senha') ";
+			$id = $_POST["id_usuario"]; // recuperando o campo oculto do formulário
+
+			// se existe o parametro id_usuario no form é por que é uma operação de edição
+			if (isset($id) && !empty($id))
+				// consulta sql que atualiza o registro
+				echo $sql = "UPDATE usuarios SET nome = '$nome', nascimento = '$nascimento', email = '$email', tipo = $tipo, senha = '$senha' WHERE id = $id";		
+			else
+				// consulta sql que insere o registro
+				$sql = "INSERT INTO usuarios (nome, nascimento, email, tipo, senha) VALUES ('$nome', '$nascimento', '$email', $tipo, '$senha') ";
 
 			// manda executar a consulta e testa se ela retornou true, indicando que houve sucesso
 			// se retornar false, indica que houve erro na consulta
 			if (mysqli_query($conn, $sql) ) {
 				// para mostrar a mensagem de sucesso, será necessário uma variavel de sessão
 				session_start();	// iniciando a sessão
-				$_SESSION["msg_sucesso"] = "Usuário inserido com sucesso"; // armazena a mensagem de sucesso na variavel de sessão
+				
+				if (isset($id) && !empty($id))
+					$_SESSION["msg_sucesso"] = "Usuário atualizado com sucesso"; // armazena a mensagem de sucesso na variavel de sessão
+				else
+					$_SESSION["msg_sucesso"] = "Usuário inserido com sucesso"; // armazena a mensagem de sucesso na variavel de sessão
+
 				header("location: mostrar.php");	// faz um redirecionamento para outra página
 				
 				mysqli_close($conn);	// fecha a conexão com o banco de dados

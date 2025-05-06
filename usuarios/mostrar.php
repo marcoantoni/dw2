@@ -81,7 +81,7 @@
             if (isset($_SESSION["msg_sucesso"])) :
         ?>
             <div class="alert">
-                Registro inserido com sucesso!
+                <?php echo ($_SESSION["msg_sucesso"]); ?>
             </div>
         <?php 
             unset($_SESSION["msg_sucesso"]);    // exclui a variavel de sessão
