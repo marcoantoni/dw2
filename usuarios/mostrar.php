@@ -129,7 +129,7 @@
                 die("Houve um erro ao conectar com o banco de dados");
             }
 
-            $sql = "SELECT nome, DATE_FORMAT(nascimento, '%d/%m/%Y') AS nascimento, email, tipo FROM usuarios ORDER BY nome ASC";
+            $sql = "SELECT id, nome, DATE_FORMAT(nascimento, '%d/%m/%Y') AS nascimento, email, tipo FROM usuarios ORDER BY nome ASC";
 
             // ao exececutar uma consulta do tipo select, a função mysqli_query retorna um resultset 
             $resultado = mysqli_query($conn, $sql);
@@ -147,6 +147,7 @@
                                 <th>Nascimento</th>
                                 <th>E-mail</th>
                                 <th>Tipo</th>
+                                <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>');
@@ -163,6 +164,9 @@
                 echo ("<td>" . htmlspecialchars($row["email"]) . "</td>");
                 // chama a função tipoParaTexto
                 echo ("<td>" . tipoParaTexto($row["tipo"]) . "</td>");
+                echo ("<td><a class='btn btn-edit' href='editar.php?id=" . urlencode($row['id'])) . "'>Editar</a>";
+                echo ("<a class='btn btn-delete' href='excluir.php?id=" . urlencode($row['id'])) . "'>Excluir</a></td>";
+                
                 echo ("</tr>"); // fecha uma nova linha da tabela
             }
             
