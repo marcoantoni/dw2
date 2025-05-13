@@ -69,6 +69,36 @@
                 font-size: 14px;
             }
         }
+                .btn {
+            display: inline-block;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none; /* remove sublinhado */
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .btn-edit {
+            background-color: #ffc107; /* amarelo */
+            color: #212529;
+        }
+
+        .btn-edit:hover {
+            background-color: #e0a800;
+            color: #fff;
+        }
+
+        .btn-delete {
+            background-color: #dc3545; /* vermelho */
+            color: #fff;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
     </style>
 </head>
 <body>
