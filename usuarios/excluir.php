@@ -9,10 +9,15 @@
 
 	if (mysqli_query($conn, $sql) ){
 		// consulta exececutada com sucesso
-		session_start();
-		$_SESSION["msg_sucesso"] = "Usuário excluído com sucesso";
-		header("location: mostrar.php");
+		// mysqli_affected_rows conta quantas linhas foram afetadas na última consulta executada. É importante essa verificação, pois pode acontecer de ser usado um id que não existe, de modo que a consulta vai ser executada com sucesso, mas não quer dizer que houve a exclusão de um registro
+		if (mysqli_affected_rows($conn) == 1){
+			session_start();
+			$_SESSION["msg_sucesso"] = "Usuário excluído com sucesso";
+		}
 	} else {
 		echo ("Houve um erro ao excluir o registro");
 	}
+	
+	header("location: mostrar.php");
+
 ?>
