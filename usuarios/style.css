@@ -18,7 +18,8 @@ body {
 h2 {
     margin-bottom: 20px;
 }
-input {
+input, select {
+    box-sizing: border-box;
     width: 95%;
     padding: 10px;
     margin: 10px 0;
