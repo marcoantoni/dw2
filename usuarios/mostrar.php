@@ -1,4 +1,7 @@
 <?php
+    
+    require_once("../protege.php");
+
     /*
         Função que recebe um código númerico que corresponde ao tipo do vinculo do usuário (conforme definido na aula de 15/04) e retorna uma string
     */
@@ -106,7 +109,8 @@
 
         <!-- Mensagem de sucesso -->
         <?php
-            session_start();    // inicia a sessão
+            // a linha abaixo pode ficar comentada, pois a sessão já é iniciada no arquivo protege.php
+            //session_start();    // inicia a sessão
             // testa se existe a variavel de sessão para mostrar a mensagem de sucesso
             if (isset($_SESSION["msg_sucesso"])) :
         ?>

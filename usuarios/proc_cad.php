@@ -14,6 +14,7 @@
 	$tipo = $_POST["tipo"];
 	$senha = $_POST["senha"];
 	$senha2 = $_POST["senha2"];
+	$escolaridade = $_POST["escolaridade"];	// vai ter o id da tabele "escolaridades"
 
 	// array para controle dos erros. Em cada cada validação, se houver um erro, a mensagem será armazenada neste array 
 	$erros = [];	
@@ -80,7 +81,7 @@
 				echo $sql = "UPDATE usuarios SET nome = '$nome', nascimento = '$nascimento', email = '$email', tipo = $tipo, senha = '$senha' WHERE id = $id";		
 			else
 				// consulta sql que insere o registro
-				$sql = "INSERT INTO usuarios (nome, nascimento, email, tipo, senha) VALUES ('$nome', '$nascimento', '$email', $tipo, '$senha') ";
+				$sql = "INSERT INTO usuarios (nome, nascimento, email, tipo, senha, id_escolaridade) VALUES ('$nome', '$nascimento', '$email', $tipo, '$senha', $escolaridade) ";
 
 			// manda executar a consulta e testa se ela retornou true, indicando que houve sucesso
 			// se retornar false, indica que houve erro na consulta
