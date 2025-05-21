@@ -75,9 +75,19 @@
             <input type="text" name="usuario" placeholder="Usuário ou e-mail" required>
             <input type="password" name="senha" placeholder="Senha" required>
             <button type="submit">Entrar</button>
-            <?php if (isset($_GET['erro'])): ?>
-                <p class="error">Usuário ou senha inválidos</p>
-            <?php endif; ?>
+            <!-- mensagem de erro -->
+            <?php
+                session_start();
+
+                // mensagem de erro é armazenada na sessão, dessa forma, verifica se existe uma mensagem para ser mostrada
+                if (isset($_SESSION["erro"]))
+                    // exibe a mensagem de erro 
+                    echo ('<p class="error">'. $_SESSION["erro"] .'</p>');
+
+                // apaga a variavel para impedir que seja exiba nas outras vezes que a página for carregada
+                unset($_SESSION["erro"]);
+            ?>
+           
         </form>
         <a href="recuperar_senha.php" class="forgot">Esqueceu a senha?</a>
     </div>
